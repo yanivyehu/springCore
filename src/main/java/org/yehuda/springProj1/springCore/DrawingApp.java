@@ -1,5 +1,7 @@
 package org.yehuda.springProj1.springCore;
 
+import javax.naming.Context;
+
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -39,6 +41,12 @@ public class DrawingApp {
 		
 		TriangleWithPoints triangle8 = (TriangleWithPoints) apContext.getBean("triangle_inhertiance_child2");
 		triangle8.draw();
+		
+		/** 
+		 * Coding to interface means that we has a reference to the interface and not to the implementing class
+		 */
+		Shape shape = (Shape) apContext.getBean("square1");
+		shape.draw();
 		
 	}
 	
