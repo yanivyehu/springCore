@@ -61,7 +61,7 @@ http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
 		</property>
 	</bean>
 
-	<!--  autowire injection -->
+	<!--  autowire injection: if the names of the fields of the bean class are match to the id's then we can create a bean with autowire -->
 	<bean id="point1" class="org.yehuda.springProj1.springCore.Point">
 		<property name="x" value="0">  </property>
 		<property name="y" value="-10"> </property>
@@ -95,10 +95,19 @@ http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
 		<property name="pointC" ref="point2"> </property>
 	</bean>
 	
-	
-
 	<!-- alias exmaple -->
 	<alias name="triangle_setter_injection" alias="another_name_to_triangle_setter_injection"/>
+
+	<!-- bean post processor  -->
+	<bean class="org.yehuda.springProj1.springCore.DisplayNameBeanPostProcessor"/>
+	
+	
+	<!-- coding to Interface -->
+	<!-- Circle --> 
+	<bean id="circle1" class="org.yehuda.springProj1.springCore.Circle"/>
+	
+	<!-- Square -->
+	<bean id="square1" class="org.yehuda.springProj1.springCore.Square"/>
 
 </beans>                         
                            
