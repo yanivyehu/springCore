@@ -45,7 +45,7 @@ public class DrawingApp {
 		/** 
 		 * Coding to interface means that we has a reference to the interface and not to the implementing class
 		 */
-		Shape shape = (Shape) apContext.getBean("square1");
+		Shape shape = (Shape) apContext.getBean("circle1");
 		shape.draw();
 		
 	}
