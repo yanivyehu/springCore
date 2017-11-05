@@ -57,12 +57,12 @@ public class Rectangle implements Shape{
 
 	@PostConstruct
 	public void init() {
-		System.out.println("init rectangle");
+		System.out.println("@PostConstruct method: init rectangle");
 	}
 	
 	@PreDestroy
 	public void destroy() {
-		System.out.println("destroy rectangle");
+		System.out.println("@PreDestroy method: destroy rectangle");
 	}
 	
 	public void draw() {

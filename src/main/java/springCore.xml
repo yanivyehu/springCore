@@ -7,32 +7,39 @@
                         http://www.springframework.org/schema/context/spring-context.xsd"
      xmlns:context="http://www.springframework.org/schema/context">
      
-     <!-- context tag can be used to activate several annotations instead of write each bean post processor individually -->
+    <!-- context tag can be used to activate several annotations instead of write each bean post processor individually -->
 	<context:annotation-config/>
+	<!-- in order to create beans we use @Component annotation. in order for spring to search for Java code that defines beans, we decalre component-scan -->
 	<context:component-scan base-package="org.yehuda.springProj1.springCore"></context:component-scan>
 
 
-	<!-- setter injection: implicit call to setter function, MUST have a public default c'tor -->
-	<bean id="triangle_setter_injection" class="org.yehuda.springProj1.springCore.Triangle" scope="prototype">
-		<property name="type" value="1"></property>
-	</bean>
-	
-	<!--  constructor injection: if we have more than one c'tor, spring will serch for the suitable once, according to type and order(index) of the arguments. -->
+	<!--  constructor injection: if we have more than one c'tor, spring will search for the suitable once, according to type and order(index) of the arguments. -->
 	<bean id="triangle_constructor_injection" class="org.yehuda.springProj1.springCore.Triangle">
-		<constructor-arg index = "0" type="java.lang.String" value="2"/>  <!-- the first argument -->
+		<constructor-arg index="0"  type="java.lang.String" value="2"/>  <!-- the first argument -->
 		<constructor-arg type="int" value="100"/>                         <!-- the second argument -->
 	</bean>
 
+	<!-- setter injection --> 
+	<bean id="triangle_setter_injection" class="org.yehuda.springProj1.springCore.Triangle" scope="prototype">
+		<property name="type" value="1"></property> <!-- implicit call to setter function of type fields, MUST have a public default c'tor -->
+	</bean>
+
 	<!--  bean injection -->
+	
+	<!-- points bean creation -->
 	<bean id="point0,-10" class="org.yehuda.springProj1.springCore.Point">
 		<property name="x" value="0">  </property>
 		<property name="y" value="-10"> </property>
 	</bean>
 	
+	<bean id="point0,0" class="org.yehuda.springProj1.springCore.Point">
+		<property name="x" value="0"></property>
+		<property name="y" value="0"></property>
+	</bean>
+	
 	<bean id="triangle_bean_injection" class="org.yehuda.springProj1.springCore.TriangleWithPoints">
 		<!-- using ref -->
-		<property name="pointA" ref="point0,0">
-		</property>
+		<property name="pointA" ref="point0,0"> </property> <!-- inject bean using ref -->
 		
 		<!-- using inner bean -->
 		<property name="pointB">
@@ -48,11 +55,6 @@
 			<!--  idref bean="point0,-10"/> -->
 		</property>
 	</bean>
-	
-	<bean id="point0,0" class="org.yehuda.springProj1.springCore.Point">
-		<property name="x" value="0"></property>
-		<property name="y" value="0"></property>
-	</bean>
 
 	<!--  list injection -->
 	<bean id="triangle_list_injection" class="org.yehuda.springProj1.springCore.TriangleWithList">
@@ -64,12 +66,11 @@
 					<property name="x" value="0"></property>
 					<property name="y" value="40"></property>
 				</bean>
-			</list>
-			
+			</list>	
 		</property>
 	</bean>
 
-	<!--  autowire injection: if the names of the fields of the bean class are match to the id's then we can create a bean with autowire -->
+	<!--  autowire injection start : if the names of the fields of the bean class are match to the id's then we can create a bean with autowire -->
 	<bean id="point1" class="org.yehuda.springProj1.springCore.Point">
 		<property name="x" value="0">  </property>
 		<property name="y" value="-10"> </property>
@@ -87,11 +88,14 @@
 	
 	<bean id="triangle_autowire_injection" class="org.yehuda.springProj1.springCore.TriangleWithAutoWire" autowire="byName">
 	</bean>
+	
+	<!-- autowire injection end -->
 
+	<!-- exmaple of class that gets the application context by making it "aware" of it -->
 	<bean id="triangle_aware_injection" class="org.yehuda.springProj1.springCore.TriangleApplicationContextAware">
 	</bean>
 	
-	<!-- bean definition inheritance -->
+	<!-- bean definition inheritance start -->
 	<bean id="triangle_inhertiance_parent" class="org.yehuda.springProj1.springCore.TriangleWithPoints">
 		<property name="pointA" ref="point0,0"> </property>
 	</bean>
@@ -103,10 +107,10 @@
 		<property name="pointB" ref="point3"> </property>
 		<property name="pointC" ref="point2"> </property>
 	</bean>
+	<!-- bean definition inheritance end -->
 	
-	<!-- alias exmaple -->
+	<!-- alias example -->
 	<alias name="triangle_setter_injection" alias="another_name_to_triangle_setter_injection"/>
-
 
 	<!-- bean post processors -->
 	<!-- My bean post processor  -->
@@ -116,13 +120,14 @@
 	<!-- Spring AutoWire bean post processor: tries to automatically connect between beans, first by type and them by name. -->
 	<bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>
 
+	<!-- Qualifier Annotation -->
 	<bean id="cir12" class="org.yehuda.springProj1.springCore.Point">
 		<qualifier value="cir1"> </qualifier>
 		<property name="x" value="0">  </property>
 		<property name="y" value="11"> </property>
 	</bean>
-	
-	<!-- This bean is autowired by @Resource annotation, which does an auto refernce by name -->
+
+	<!-- This bean is autowired by @Resource annotation, which does an auto reference by name -->
 	<bean id="leftUp" class="org.yehuda.springProj1.springCore.Point">
 		<property name="x" value="0"></property>
 		<property name="y" value="0"></property>
