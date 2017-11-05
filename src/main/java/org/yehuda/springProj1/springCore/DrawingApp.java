@@ -3,6 +3,7 @@ package org.yehuda.springProj1.springCore;
 import javax.naming.Context;
 
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class DrawingApp {
@@ -17,7 +18,13 @@ public class DrawingApp {
 		/**
 		 * ApplicationContext and Property Initialization
 		 */
-		ApplicationContext apContext = new ClassPathXmlApplicationContext("springCore.xml");
+		
+		System.out.println("Starting Main...");
+		System.out.println("Creating an ApplicationContext...");
+		AbstractApplicationContext apContext = new ClassPathXmlApplicationContext("springCore.xml");
+		apContext.registerShutdownHook();
+		
+		System.out.println("Using Beans...");
 		Triangle triangle = (Triangle) apContext.getBean("triangle_setter_injection");
 		triangle.draw();
 		
@@ -45,9 +52,16 @@ public class DrawingApp {
 		/** 
 		 * Coding to interface means that we has a reference to the interface and not to the implementing class
 		 */
-		Shape shape = (Shape) apContext.getBean("circle1");
-		shape.draw();
+		Shape shape1 = (Shape) apContext.getBean("circle1");
+		shape1.draw();
 		
+		Shape shape2 = (Shape) apContext.getBean("rectangle"); //created by @Component annotation
+		shape2.draw();
+		
+		Shape shape3 = (Shape) apContext.getBean("messageSourceUse"); //created by @Component annotation
+		shape3.draw();
+		
+		System.out.println(apContext.getMessage("greeting", null, "Default greeting", null));
 	}
 	
 }

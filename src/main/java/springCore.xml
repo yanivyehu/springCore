@@ -9,6 +9,8 @@
      
      <!-- context tag can be used to activate several annotations instead of write each bean post processor individually -->
 	<context:annotation-config/>
+	<context:component-scan base-package="org.yehuda.springProj1.springCore"></context:component-scan>
+
 
 	<!-- setter injection: implicit call to setter function, MUST have a public default c'tor -->
 	<bean id="triangle_setter_injection" class="org.yehuda.springProj1.springCore.Triangle" scope="prototype">
@@ -119,6 +121,12 @@
 		<property name="x" value="0">  </property>
 		<property name="y" value="11"> </property>
 	</bean>
+	
+	<!-- This bean is autowired by @Resource annotation, which does an auto refernce by name -->
+	<bean id="leftUp" class="org.yehuda.springProj1.springCore.Point">
+		<property name="x" value="0"></property>
+		<property name="y" value="0"></property>
+	</bean>
 
 	<!-- coding to Interface -->
 	<!-- Circle --> 
@@ -126,5 +134,12 @@
 	<!-- Square -->
 	<bean id="square1" class="org.yehuda.springProj1.springCore.Square"/>
 
+	<!-- we create a bean from the framework that helps us to creates messages from properties file -->
+	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basename">
+			<value>mymessages</value>
+		</property>
+	</bean>
+	
 </beans>                         
                            
